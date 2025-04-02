@@ -1,8 +1,38 @@
-﻿@{
+﻿@model L02P02_2022_SS_650_2021_OF_601.Models.clientes
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container my-5">
+    <div class="col-md">
+        <h2>Proceso de venta</h2>
+        <h4>Datos del cliente</h4>
+        <form asp-action="IniciarVenta" method="post">
+            <div class="row">
+                <div class="col-md">
+                    <h5>Nombre</h5>
+                    @Html.TextBoxFor(m => m.nombre, new { @class = "form-control", placeholder = "Nombre", required = "required" })
+                </div>
+                <div class="col-md">
+                    <h5>Apellido</h5>
+                    @Html.TextBoxFor(m => m.apellido, new { @class = "form-control", placeholder = "Apellido", required = "required" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md">
+                    <h5>Email</h5>
+                    @Html.TextBoxFor(m => m.email, new { @class = "form-control", placeholder = "Email", required = "required" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md">
+                    <h5>Dirección</h5>
+                    @Html.TextBoxFor(m => m.direccion, new { @class = "form-control", placeholder = "Dirección", required = "required" })
+                </div>
+            </div>
+            <div class="pt-5">
+                <button type="submit" class="btn btn-primary">Iniciar venta</button>
+            </div>
+        </form>
+    </div>
 </div>

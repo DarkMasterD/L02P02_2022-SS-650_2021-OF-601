@@ -21,7 +21,7 @@
                                 <p class="precioLibro" data-precio=@libro.precio>@libro.precio</p>
                             </div>
                             <div class="col-4">
-                                <button class="btn btn-success agregarCarrito" data-id=@libro.id data-precio=@libro.precio>+ Agregar</button>
+                                <button class="btn btn-success agregarCarrito" data-pedido="@ViewBag.IdPedido" data-id=@libro.id data-precio=@libro.precio>+ Agregar</button>
                             </div>
                         </div>
                     </li>
@@ -61,7 +61,7 @@
         $(".agregarCarrito").click(function () {
             let libroId = $(this).data("id");
             let precio = parseFloat($(this).data("precio"));
-            let pedidoId = $(this).data("idpedido");
+            let pedidoId = $(this).data("pedido");
             $.ajax({
                 url: "/Venta/CarritoVenta",
                 type: "POST",
@@ -82,20 +82,8 @@
         $("#btnCompletar").click(function () {
             let idPedido = $(this).data("idpedido");
             let idCliente = $(this).data("idcliente");
-            $.ajax({
-                url: "/Venta/InicioVenta",
-                type: "POST",
-                data: { id_pedido: idPedido, id_cliente: idCliente },
-                success: function (response) {
-                    if (response.success) {
 
-                        window.location.href = response.redirectUrl;
-                    }
-                },
-                error: function () {
-                    alert("Error al completar la venta.");
-                }
-            });
+            window.location.href = `/Venta/InicioVenta?id_pedido=${idPedido}&id_cliente=${idCliente}`;
         });
     });
 </script>

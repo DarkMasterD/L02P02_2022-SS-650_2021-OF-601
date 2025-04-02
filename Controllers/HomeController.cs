@@ -40,16 +40,31 @@ namespace L02P02_2022_SS_650_2021_OF_601.Controllers
                 {
                     id_cliente = cliente.id,
                     cantidad_libros = 0, 
-                    total = 0.0, 
+                    total = 0.0M, 
                     estado = 'P'
                 };
                 _context.pedido_encabezado.Add(pedido);
                 _context.SaveChanges();
 
-                return RedirectToAction("CarritoVenta", "Venta", new { id_pedido = pedido.id });
+                return RedirectToAction("CarritoVenta", "Venta", new { id_pedido = pedido.id, id_cliente = pedido.id });
             }
 
             return View(cliente);
+        }
+
+        [HttpPost]
+        public IActionResult CerrarVenta(int id_pedido)
+        {
+            var pedido = _context.pedido_encabezado.Find(id_pedido);
+            if (pedido != null)
+            {
+                pedido.estado = 'C'; // C = Cerrado
+                _context.Entry(pedido).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+
+
+            return RedirectToAction("Index", "Home");
         }
 
     }

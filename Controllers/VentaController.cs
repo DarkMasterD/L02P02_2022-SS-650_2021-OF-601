@@ -12,7 +12,7 @@ namespace L02P02_2022_SS_650_2021_OF_601.Controllers
             _libreriaContext = context;
         }
         [HttpGet]
-        public IActionResult CarritoVenta(int id_pedido)
+        public IActionResult CarritoVenta(int id_pedido, int id_cliente)
         {
             var libros = (from l in _libreriaContext.libros 
                           join a in _libreriaContext.autores
@@ -26,10 +26,11 @@ namespace L02P02_2022_SS_650_2021_OF_601.Controllers
                           }).ToList();
             ViewData["listadoLibros"] = libros;
             ViewBag.IdPedido = id_pedido;
+            ViewBag.IdCliente = id_cliente;
             return View();
         }
         [HttpPost]
-        public IActionResult CarritoVenta(int id_libro, int id_pedido)
+        public IActionResult CarritoVenta(int id_libro, int id_pedido, string a = "")
         {
             pedido_detalle pedido = new pedido_detalle();
             pedido.id_pedido = id_pedido;
@@ -62,7 +63,7 @@ namespace L02P02_2022_SS_650_2021_OF_601.Controllers
                              on pd.id_libro equals l.id
                              join a in _libreriaContext.autores
                              on l.id_autor equals a.id 
-                             where pd.id == id_pedido
+                             where pd.id_pedido == id_pedido
                              select new
                              {
                                  libro = l.nombre,
@@ -70,9 +71,14 @@ namespace L02P02_2022_SS_650_2021_OF_601.Controllers
                                  precio = l.precio
                              }).ToList();
 
-            ViewData["listadoDetPedido"] = DetPedido;
+            pedido_encabezado? EncPedido = (from ep in _libreriaContext.pedido_encabezado
+                                                 where ep.id == id_pedido
+                                                 select ep).FirstOrDefault();
+
+            ViewData["DetPedido"] = DetPedido;
             ViewBag.cliente = Cliente;
             ViewBag.id_pedido = id_pedido;
+            ViewBag.Total = EncPedido.total;
 
             return View();
         }

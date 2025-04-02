@@ -1,7 +1,6 @@
 ﻿@{
-    var pedido = ViewBag.Pedido as pedido_encabezado;
-    var cliente = ViewBag.Cliente as clientes;
-    var libros = ViewBag.LibrosEnCarrito as List<dynamic>;
+    var pedido = ViewBag.id_pedido;
+    var cliente = ViewBag.cliente as clientes;
     var total = ViewBag.Total;
 }
 
@@ -28,10 +27,10 @@
     <!-- Carrito -->
     <div class="mb-4">
         <h4>Carrito</h4>
-        @foreach (var libro in libros)
+        @foreach (var libro in (IEnumerable<dynamic>)ViewData["DetPedido"])
         {
             <div class="mb-2">
-                <strong>@libro.nombre</strong>
+                <strong>@libro.libro</strong>
                 <p>Autor: @libro.autor - $@libro.precio</p>
             </div>
         }
@@ -47,8 +46,8 @@
     </div>
 
     <!-- Botón Cerrar Venta -->
-    <form asp-action="CerrarVenta" method="post">
-        <input type="hidden" name="id_pedido" value="@pedido.id" />
+    <form asp-action="/Venta/CerrarVenta" method="post">
+        <input type="hidden" name="id_pedido" value="@pedido" />
         <button type="submit" class="btn btn-primary">Cerrar Venta</button>
     </form>
 </div>

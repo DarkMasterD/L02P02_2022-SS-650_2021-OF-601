@@ -82,5 +82,20 @@ namespace L02P02_2022_SS_650_2021_OF_601.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public IActionResult CerrarVenta(int id_pedido)
+        {
+            var pedido = _libreriaContext.pedido_encabezado.Find(id_pedido);
+            if (pedido != null)
+            {
+                pedido.estado = 'C'; // C = Cerrado
+                _libreriaContext.Entry(pedido).State = EntityState.Modified;
+                _libreriaContext.SaveChanges();
+            }
+
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

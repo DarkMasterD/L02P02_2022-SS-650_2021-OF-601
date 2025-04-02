@@ -51,21 +51,5 @@ namespace L02P02_2022_SS_650_2021_OF_601.Controllers
 
             return View(cliente);
         }
-
-        [HttpPost]
-        public IActionResult CerrarVenta(int id_pedido)
-        {
-            var pedido = _context.pedido_encabezado.Find(id_pedido);
-            if (pedido != null)
-            {
-                pedido.estado = 'C'; // C = Cerrado
-                _context.Entry(pedido).State = EntityState.Modified;
-                _context.SaveChanges();
-            }
-
-
-            return RedirectToAction("Index", "Home");
-        }
-
     }
 }

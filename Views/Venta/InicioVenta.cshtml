@@ -46,7 +46,7 @@
     </div>
 
     <!-- Botón Cerrar Venta -->
-    <form asp-action="/Venta/CerrarVenta" method="post">
+    <form asp-action="CerrarVenta" method="post">
         <input type="hidden" name="id_pedido" value="@pedido" />
         <button type="submit" class="btn btn-primary">Cerrar Venta</button>
     </form>

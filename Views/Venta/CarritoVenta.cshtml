@@ -1,0 +1,82 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h4>Libros</h4>
+            <ul class="list-group">
+                @foreach (var libro in (IEnumerable<dynamic>)ViewData["listadoLibros"])
+                {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-4">
+                                <p><strong>@libro.libro</strong></p>
+                                <p>@libro.autor</p>
+                            </div>
+                            <div class="col-4">
+                                <p class="precioLibro" data-precio=@libro.precio>@libro.precio</p>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-success agregarCarrito" data-id=@libro.id data-precio=@libro.precio>+ Agregar</button>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-6">
+                    <h4>Total Libros</h4>
+                </div>
+                <div class="col-6">
+                    <p id="totalLibros">0</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p>Total (USD)</p>
+                </div>
+                <div class="col-6">
+                    <p id="totalPrecio">$0</p>
+                </div>
+            </div>
+            <div class="">
+                <button class="btn btn-info">Completar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let contadorLibros = 0;
+        let totalPrecio = 0;
+
+        $(".agregarCarrito").click(function () {
+            let libroId = $(this).data("id");
+            let precio = parseFloat($(this).data("precio"));
+
+            $.ajax({
+                url: "/Venta/CarritoVenta",
+                type: "POST",
+                data: { id_libro: libroId },
+                success: function (response) {
+                    contadorLibros++;
+                    totalPrecio += precio;
+
+                    $("#totalLibros").text(contadorLibros);
+                    $("#totalPrecio").text("$" + totalPrecio.toFixed(2));
+                },
+                error: function () {
+                    alert("Error al agregar el libro al carrito.");
+                }
+            });
+        });
+    });
+</script>

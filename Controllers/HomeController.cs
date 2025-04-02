@@ -46,7 +46,7 @@ namespace L02P02_2022_SS_650_2021_OF_601.Controllers
                 _context.pedido_encabezado.Add(pedido);
                 _context.SaveChanges();
 
-                return RedirectToAction("CarritoVenta", new { id_pedido = pedido.id });
+                return RedirectToAction("CarritoVenta", "Venta", new { id_pedido = pedido.id });
             }
 
             return View(cliente);
